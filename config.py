@@ -1,13 +1,6 @@
-import pygame
-import json
-import os
-import ctypes
-
-try:
-    ctypes.windll.shcore.SetProcessDpiAwareness(2)
-except Exception:
-    pass
-
+import pygame, json, os, ctypes
+try: ctypes.windll.shcore.SetProcessDpiAwareness(2)
+except Exception: pass
 pygame.init()
 
 RESOLUTIONS = [(1280, 720), (1600, 900), (1920, 1080), (2560, 1440), (3840, 2160)]
@@ -15,11 +8,12 @@ FPS_OPTIONS = [60, 120, 144, 240]
 LANGUAGES = ["RU", "EN"]
 SCREEN_MODES = ["WINDOWED", "FULLSCREEN"]
 
-current_res_idx = 2
-current_fps_idx = 0
-current_lang_idx = 0
-current_mode_idx = 0
+current_res_idx, current_fps_idx, current_lang_idx, current_mode_idx = 2, 0, 0, 0
 show_fps_counter = True
+
+# Фиксированные размеры холста, под которые пишется вся игра
+V_WIDTH, V_HEIGHT = 1920, 1080
+V_SPACE_WIDTH = int(V_WIDTH * 0.75)
 
 WINDOW_WIDTH, WINDOW_HEIGHT = RESOLUTIONS[current_res_idx]
 SPACE_WIDTH = int(WINDOW_WIDTH * 0.75)
@@ -40,12 +34,8 @@ LOCALIZATION = {
         "fps_show_label": "Показ FPS: ", "singularity_tip": "КЛИКАЙ ДЛЯ СЖАТИЯ МАТЕРИИ",
         "density_label": "Плотность: ", "epoch_quarks": "ЭПОХА КВАРКОВ (АВТОСЕЙВ РАБОТАЕТ)",
         "quarks_current": "Кварки: ", "on": "ВКЛ", "off": "ВЫКЛ", "windowed": "ОКОННЫЙ", "fullscreen": "ПОЛНЫЙ",
-        "shop_title": "МАГАЗИН",
-        "btn_strong_force": "Сильное Взаимод.",
-        "owned_label": "Куплено: ",
-        "btn_resume": "ПРОДОЛЖИТЬ",
-        "btn_to_menu": "ГЛАВНОЕ МЕНЮ"
-
+        "shop_title": "МАГАЗИН", "btn_strong_force": "Сильное Взаимод.", "owned_label": "Куплено: ",
+        "btn_resume": "ПРОДОЛЖИТЬ", "btn_to_menu": "ГЛАВНОЕ МЕНЮ"
     },
     "EN": {
         "title": "QUANTUM SPACE IDLE", "btn_play": "PLAY GAME", "btn_settings": "SETTINGS",
@@ -54,13 +44,8 @@ LOCALIZATION = {
         "fps_show_label": "Show FPS: ", "singularity_tip": "CLICK TO COMPRESS MATTER",
         "density_label": "Density: ", "epoch_quarks": "QUARK EPOCH (AUTOSAVE ACTIVE)",
         "quarks_current": "Quarks: ", "on": "ON", "off": "OFF", "windowed": "WINDOWED", "fullscreen": "FULLSCREEN",
-        "shop_title": "SHOP",
-        "btn_strong_force": "Strong Force",
-        "owned_label": "Owned: ",
-        "btn_resume": "RESUME",
-        "btn_to_menu": "MAIN MENU"
-
-
+        "shop_title": "SHOP", "btn_strong_force": "Strong Force", "owned_label": "Owned: ",
+        "btn_resume": "RESUME", "btn_to_menu": "MAIN MENU"
     }
 }
 
@@ -75,7 +60,6 @@ def update_system_settings():
     SCREEN_MODE = SCREEN_MODES[current_mode_idx]
 
 SAVE_FILE = "savegame.json"
-
 def save_game(quarks, state, upgrade_count, auto_cps, upgrade_cost):
     data = {
         "quarks": quarks, "upgrade_count": upgrade_count, "auto_cps": auto_cps,

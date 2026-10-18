@@ -1,0 +1,12 @@
+{
+    "quarks": 5,
+    "upgrade_count": 1,
+    "auto_cps": 1,
+    "upgrade_cost": 15,
+    "state": 1,
+    "res_idx": 4,
+    "fps_idx": 3,
+    "lang_idx": 0,
+    "mode_idx": 1,
+    "show_fps": true
+}
